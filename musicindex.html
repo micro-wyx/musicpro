@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-cn">
+ <head>
+  <meta charset="UTF-8">
+ <meta name="Description" content="音乐播放器">
+  <title>音乐播放器</title>
+  <style>
+	*{
+		margin:0;
+		padding:0;
+      }
+	#phone{width:320px;
+	        height:600px;
+			background-color:#000;
+			margin:50px auto;
+			}
+	.top{width:320px;
+	     height:23px;
+		 background:url("images/1.png");
+			}
+	.title{width:320px;
+			height:30px;
+			background:url("images/2.png");
+			color:#fff;
+			text-align:center;
+			font-size:20px;
+			font-weight:bold;
+	}
+	.singer{width:320px;
+			height:40px;
+			text-align:center;
+			color:#fff;
+
+			
+	}
+	.play{width:190px;
+	      height:190px;
+		  background:url("images/3.png");
+		  margin:auto;
+		  border-radius:50%;
+
+	}
+	.rotate{
+	         animation:rot 10s linear infinite;
+	}
+	@keyframes rot{
+	from{transform:rotate(0deg)}
+      to{transform:rotate(360deg)}
+	}
+	.lrc{
+		width:300px;
+		height:280px;
+		
+		margin:10px auto;
+		overflow:hidden;
+		color:#fff;
+		text-align:center;
+		font-size:12px;
+       }
+	  #content{
+	  position:relative;
+	  top:0;
+     }
+	 #content p{
+	 height:20px;
+	 }
+
+  </style>
+ </head>
+ <body>
+	<div id="phone">
+		<div class="top"></div>
+		<div class="title">小幸运</div>
+		<div class="singer">谭嘉仪</div>
+		<div class="play" class="rotate" id="play"></div>
+		<div class="lrc">
+			<div id="content"></div>
+		</div>
+		
+	</div>
+	<audio id="myMusic" src="music/谭嘉仪-小幸运.mp3"></audio>
+	<textarea id="txt">
+		[00:00.64]小幸运 - 谭嘉仪
+		[00:02.15]词：徐世珍&吴辉福
+		[00:03.70]曲：JerryC
+		[00:04.14]编曲：JerryC
+		[00:13.77]我听见雨滴落在青青草地
+		[00:19.89]我听见远方下课钟声响起
+		[00:25.74]可是我没有听见你的声音
+		[00:30.74]认真 呼唤我姓名
+		[00:37.92]爱上你的时候还不懂感情
+		[00:44.12]离别了才觉得刻骨 铭心
+		[00:50.09]为什么没有发现遇见了你
+		[00:54.70]是生命最好的事情
+		[01:00.30]也许当时忙着微笑和哭泣
+		[01:06.36]忙着追逐天空中的流星
+		[01:12.12]人理所当然的忘记
+		[01:16.55]是谁风里雨里一直默默守护在原地
+		[01:24.44]原来你是我最想留住的幸运
+		[01:29.69]原来我们和爱情曾经靠得那么近
+		[01:35.67]那为我对抗世界的决定
+		[01:40.29]那陪我淋的雨
+		[01:43.28]一幕幕都是你 一尘不染的真心
+		[01:50.60]与你相遇 好幸运
+		[01:53.96]可我已失去为你泪流满面的权利
+		[01:59.98]但愿在我看不到的天际
+		[02:04.63]你张开了双翼
+		[02:07.68]遇见你的注定 她会有多幸运
+		[02:27.28]青春是段跌跌撞撞的旅行
+		[02:33.44]拥有着后知后觉的美丽
+		[02:39.55]来不及感谢是你给我勇气
+		[02:44.22]让我能做回我自己
+		[02:49.72]也许当时忙着微笑和哭泣
+		[02:55.55]忙着追逐天空中的流星
+		[03:01.61]人理所当然的忘记
+		[03:06.03]是谁风里雨里一直默默守护在原地
+		[03:13.79]原来你是我最想留住的幸运
+		[03:19.05]原来我们和爱情曾经靠得那么近
+		[03:25.17]那为我对抗世界的决定
+		[03:29.68]那陪我淋的雨
+		[03:32.56]一幕幕都是你 一尘不染的真心
+		[03:39.89]与你相遇 好幸运
+		[03:43.40]可我已失去为你泪流满面的权利
+		[03:49.32]但愿在我看不到的天际
+		[03:53.97]你张开了双翼
+		[03:56.98]遇见你的注定
+		[04:00.47]Oh 她会有多幸运
+	</textarea>
+	<script>
+	var oPlay=document.getElementById("play");
+	var myMusic=document.getElementById("myMusic");
+	var oCon=document.getElementById("content");
+	var onOff=true;
+	oPlay.onclick=function()
+	{
+		if(onOff){
+		myMusic.play();
+		this.className="play rotate";
+		//onOff=false;
+		}
+		else{
+			  myMusic.pause();
+			  this.className="play";
+		      //onOff=true;
+            }
+     onOff=!onOff;//取反
+	}
+	//歌词同步
+	var html="";//用一个HTML来存储歌词
+	var txt=document.getElementById("txt").value;
+	//console.log(txt);
+	var lrc=txt.split("[")
+	for(var i=0;i<lrc.length;i++)
+	{	
+		var lrcArr=lrc[i].split("]");
+		var time=lrcArr[0].split(".");
+		var times=time[0].split(":");
+		var ct=times[0]*60+times[1]*1;
+      if(lrcArr[1] && ct)
+		{
+          html+="<p id="+ct+">"+lrcArr[1]+"</p>";
+		}
+		//把拼接的歌词存放在html这个里面
+		
+	}
+	 oCon.innerHTML=html;
+	//监听音乐播放进度
+    var aP=document.getElementsByTagName("p");
+	var num=0;
+	myMusic.addEventListener("timeupdate",function(){
+		//console.log(this.currentTime)
+		var curTime=parseInt(this.currentTime);
+		if(document.getElementById(curTime))
+		{   //
+            for(var i=0;i<aP.length;i++)
+			{
+				aP[i].style.color="#fff";
+			}
+			document.getElementById(curTime).style.color="red";
+			if(aP[7+num]&&aP[num].id == curTime)
+			{
+				oCon.style.top=-20*num+"px";
+				num++;
+			}
+		}
+	});
+	//
+	myMusic.addEventListener("ended",function(){
+		oPlay.className="play";
+		this.currentTime=0;
+		num=0;
+		onOff=true;
+		oCon.style.top=0;
+	})
+	</script>
+ </body>
+</html>
